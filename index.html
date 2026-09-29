@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff6ec4">
+<title>Untuk Aura</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fbc2eb 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+    overflow-x: hidden;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+  }
+
+  .sticker {
+    position: fixed;
+    font-size: 3rem;
+    z-index: 5;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 10px rgba(255, 45, 117, 0.3));
+    user-select: none;
+  }
+
+  @keyframes float1 {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translateY(0) rotate(8deg); }
+    50% { transform: translateY(-20px) rotate(-8deg); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+  }
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .s1  { top: 8%;  left: 5%;  animation: float1 3s ease-in-out infinite; font-size: 3.5rem; }
+  .s2  { top: 25%; left: 3%;  animation: float2 3.5s ease-in-out infinite; font-size: 2.8rem; }
+  .s3  { top: 45%; left: 6%;  animation: wiggle 2s ease-in-out infinite; font-size: 3rem; }
+  .s4  { top: 65%; left: 4%;  animation: bounce 2.5s ease-in-out infinite; font-size: 3.2rem; }
+  .s5  { top: 82%; left: 8%;  animation: float1 3.2s ease-in-out infinite; font-size: 2.6rem; }
+  .s6  { top: 10%; right: 5%; animation: float2 3s ease-in-out infinite; font-size: 3.5rem; }
+  .s7  { top: 28%; right: 3%; animation: wiggle 2.3s ease-in-out infinite; font-size: 2.9rem; }
+  .s8  { top: 48%; right: 6%; animation: bounce 2.8s ease-in-out infinite; font-size: 3rem; }
+  .s9  { top: 68%; right: 4%; animation: float1 3.4s ease-in-out infinite; font-size: 3.2rem; }
+  .s10 { top: 85%; right: 7%; animation: float2 3s ease-in-out infinite; font-size: 2.7rem; }
+  .s11 { top: 15%; left: 20%; animation: spinSlow 8s linear infinite; font-size: 1.8rem; opacity: 0.9; }
+  .s12 { top: 35%; right: 18%; animation: spinSlow 10s linear infinite; font-size: 1.8rem; opacity: 0.9; }
+  .s13 { top: 70%; left: 22%; animation: spinSlow 9s linear infinite; font-size: 1.8rem; opacity: 0.9; }
+  .s14 { top: 55%; right: 22%; animation: wiggle 2s ease-in-out infinite; font-size: 2rem; }
+  .s15 { top: 88%; right: 20%; animation: bounce 2.4s ease-in-out infinite; font-size: 2rem; }
+
+  .name {
+    font-size: clamp(2rem, 8vw, 4.5rem);
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff2d75, #ff6ec4, #7873f5, #ff2d75);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientMove 4s ease infinite, fadeUp 1.5s ease forwards;
+    opacity: 0;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 10;
+  }
+
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .greeting {
+    font-size: clamp(1rem, 4vw, 1.8rem);
+    color: #b3005e;
+    font-weight: 600;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards;
+    animation-delay: 1.5s;
+    padding: 0 10px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .greeting.sub {
+    font-size: clamp(0.85rem, 3vw, 1.3rem);
+    color: #7a1f4d;
+    font-weight: 400;
+    animation-delay: 2.5s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .love-container {
+    margin-top: 40px;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards, pulse 1.8s ease-in-out infinite;
+    animation-delay: 3.5s, 4.5s;
+    transition: transform 0.3s ease;
+    user-select: none;
+    position: relative;
+    z-index: 10;
+  }
+
+  .love-container:hover { transform: scale(1.15); }
+  .love-container:active { transform: scale(0.95); }
+
+  .love-emoji {
+    font-size: clamp(5rem, 22vw, 10rem);
+    display: inline-block;
+    filter: drop-shadow(0 0 25px rgba(255, 45, 117, 0.6));
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .hint {
+    margin-top: 15px;
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    color: #7a1f4d;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 5s;
+    font-style: italic;
+    position: relative;
+    z-index: 10;
+  }
+
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+  }
+
+  .popup-overlay.show {
+    display: flex;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .popup-card {
+    background: #fff;
+    border-radius: 25px;
+    padding: 35px 28px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(255, 45, 117, 0.4);
+    position: relative;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 3px solid #ffd1e8;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .popup-card .emoji-top {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    display: block;
+    animation: bounce 1.5s ease-in-out infinite;
+  }
+
+  .popup-card p {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    color: #7a1f4d;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .popup-card .btn-single {
+    background: linear-gradient(135deg, #ff2d75, #ff6ec4);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 6px 20px rgba(255, 45, 117, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .popup-card .btn-single:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 45, 117, 0.55);
+  }
+
+  .popup-card .btn-single:active { transform: translateY(0); }
+
+  .choice-buttons {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    min-height: 60px;
+  }
+
+  .btn-yes, .btn-no {
+    border: none;
+    padding: 13px 26px;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+                font-size 0.35s ease, padding 0.35s ease, opacity 0.4s ease;
+    white-space: nowrap;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, #ff2d75, #ff6ec4);
+    color: white;
+    box-shadow: 0 6px 20px rgba(255, 45, 117, 0.5);
+    animation: heartbeat 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .btn-yes:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(255, 45, 117, 0.65);
+  }
+
+  .btn-no {
+    background: #f0f0f0;
+    color: #888;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform-origin: center center;
+    flex-shrink: 0;
+  }
+
+  .btn-no:hover {
+    background: #e6e6e6;
+  }
+
+  .btn-no.shrinking {
+    animation: shakeIt 0.4s ease;
+  }
+
+  @keyframes shakeIt {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px) rotate(-3deg); }
+    75% { transform: translateX(6px) rotate(3deg); }
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+  }
+
+  .falling-heart {
+    position: fixed;
+    top: -50px;
+    font-size: 24px;
+    pointer-events: none;
+    animation: fall linear forwards;
+    z-index: 50;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  .confetti {
+    position: fixed;
+    top: -50px;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    animation: confettiFall linear forwards;
+    z-index: 60;
+    border-radius: 2px;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .s11, .s12, .s13, .s14, .s15 { display: none; }
+    .sticker { font-size: 2rem !important; }
+    .choice-buttons { gap: 8px; }
+    .btn-yes, .btn-no { padding: 11px 18px; font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="sticker s1">🧸</div>
+  <div class="sticker s2">🌸</div>
+  <div class="sticker s3">🐰</div>
+  <div class="sticker s4">💐</div>
+  <div class="sticker s5">🎀</div>
+  <div class="sticker s6">🐻</div>
+  <div class="sticker s7">🌷</div>
+  <div class="sticker s8">🐱</div>
+  <div class="sticker s9">✨</div>
+  <div class="sticker s10">🍓</div>
+  <div class="sticker s11">💕</div>
+  <div class="sticker s12">⭐</div>
+  <div class="sticker s13">🩷</div>
+  <div class="sticker s14">🦋</div>
+  <div class="sticker s15">🌼</div>
+
+  <h1 class="name">Aura ✨</h1>
+  <p class="greeting">HELLOOO AURA YANG CANTIKKK DAN LUCUUU 💕</p>
+  <p class="greeting sub">ADA SESUATU YANG INGIN AKU BILANG...</p>
+
+  <div class="love-container" onclick="showMessage()">
+    <span class="love-emoji">❤️</span>
+  </div>
+  <p class="hint">(COBA KAMU CLICK GAMBAR LOVENYA DEH:3❤️)</p>
+
+  <div class="popup-overlay" id="popup" onclick="closeIfOutside(event)">
+    <div class="popup-card" onclick="event.stopPropagation()">
+      <span class="emoji-top" id="popupEmoji">💌</span>
+      <p id="popupText"></p>
+      <div id="popupActions"></div>
+    </div>
+  </div>
+
+<script>
+  const messages = [
+    { emoji: ":3",  text: "HAIIII AURAAA AKUUU TAU KITA BARU KENAL:D" },
+    { emoji: "><",  text: "TAPIIII UNTUK SEJAUH INI SELAMA INI AKU HIDUP KAMU ADALAH WANITA TERBAIK DAN ORANG TERBAIK YANG PERNAH AKU PUNYA DAN KENAL" },
+    { emoji: "🌹", text: "DAN AKU SUKA SEMUA HAL TENTANG KAMUUU KAMU PINTER KAMU CANTIK KAMU LUCU KAMU GEMESIN DAN KAMU MAU NERIMA AKU APAPUN ADANYA" },
+    { emoji: "💖", text: "DAN DI TENGAH DUNIA YANG GA SELALU BAIK INI" },
+    { emoji: "💍", text: "KAMU MAU GAAA JADI WANITA AKU PACAR AKUUU KEKASIH AKUUU?:3 AKU PENGEN KAMU SEPENUHNYA JADI PUNYA AKUUU DAN AKU MAU KAMUUU PUNYA AKU SEPENUHNYA JUGA", isLast: true }
+  ];
+
+  const noTexts = [
+    "TIDAK 💔",
+    "IHHHHH JAHAT DI TOLAK",
+    "SERIUSSS NIH?",
+    "BENERAN AKU MAU DI TOLAK?",
+    "PWISSS INI SALAH PENCET KAN?",
+    "JANGAN TOLAK AKU PWISSS NANTI AKU SEDIH NIH",
+    "IHHHH MASIH DI PENCET SEDIH BENERAN NIH AKU",
+    "KAMU BENERAN GA MAU SAMA AKU YACH?",
+    "BAIKLAH GWEH IM FINE",
+    "NIH UDAH TERAKHIR NI",
+    "IHHHH YAUDAAA KALAU GA MAUUU JAHATT HUWAAA",
+    "COBA KAMU CLICK YANG SEBELAHNYA LEBIHHH BAGUSSS TAWUUU",
+    "EHHHH KOK DI PENCET DI SINI LAGI",
+    "DAH AKU HILANGIN G MAU DI TOLAK KAMU"
+  ];
+
+  const jawabanMau = {
+    emoji: "💖",
+    title: "YEAYYYY!!!",
+    text: "YEAYYYY AKHIRNYA KAMU TERIMA AKUUU TIMAKASIII YAAA CEWE CANTIKKK LUCUUU DAN GEMESIN INI>< AKU HAPPY BGT DI TENGAH DI DUNIA YANG GA PASTI DAN BERANTAKAN KITA BERJUANG BARENG YAAAA I LOVE YOU SO MUCHHH MY BABY AURAAA:3"
+  };
+
+  let currentIndex = 0;
+  let noClickCount = 0;
+  let answered = false;
+
+  const popup = document.getElementById('popup');
+  const popupText = document.getElementById('popupText');
+  const popupEmoji = document.getElementById('popupEmoji');
+  const popupActions = document.getElementById('popupActions');
+
+  function showMessage() {
+    currentIndex = 0;
+    noClickCount = 0;
+    answered = false;
+    displayMessage();
+    popup.classList.add('show');
+    for (let i = 0; i < 15; i++) {
+      setTimeout(createFallingHeart, i * 120);
+    }
+  }
+
+  function displayMessage() {
+    const msg = messages[currentIndex];
+    popupEmoji.textContent = msg.emoji;
+    popupText.textContent = msg.text;
+
+    if (msg.isLast && !answered) {
+      popupActions.innerHTML =
+        '<div class="choice-buttons">' +
+          '<button class="btn-yes" id="btnYes" onclick="jawabMau()">MAU 💖</button>' +
+          '<button class="btn-no" id="btnNo" onclick="jawabTidak()">TIDAK 💔</button>' +
+        '</div>';
+    } else if (!msg.isLast) {
+      popupActions.innerHTML =
+        '<button class="btn-single" onclick="nextMessage()">Lanjut 💗</button>';
+    }
+  }
+
+  function nextMessage() {
+    if (currentIndex < messages.length - 1) {
+      currentIndex++;
+      displayMessage();
+      const card = document.querySelector('.popup-card');
+      card.style.animation = 'none';
+      void card.offsetWidth;
+      card.style.animation = 'popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      for (let i = 0; i < 8; i++) {
+        setTimeout(createFallingHeart, i * 100);
+      }
+    }
+  }
+
+  function jawabTidak() {
+    const btnNo = document.getElementById('btnNo');
+    const btnYes = document.getElementById('btnYes');
+    if (!btnNo) return;
+
+    noClickCount++;
+
+    if (noClickCount < noTexts.length) {
+      btnNo.textContent = noTexts[noClickCount];
+    } else {
+      btnNo.textContent = "💨";
+    }
+
+    btnNo.classList.remove('shrinking');
+    void btnNo.offsetWidth;
+    btnNo.classList.add('shrinking');
+
+    const scaleFactor = Math.max(0.15, 1 - noClickCount * 0.13);
+    const newFontSize = Math.max(0.4, 1 - noClickCount * 0.09);
+    const newPaddingV = Math.max(3, 13 - noClickCount * 1.3);
+    const newPaddingH = Math.max(6, 26 - noClickCount * 2.4);
+    const newOpacity = Math.max(0, 1 - noClickCount * 0.08);
+
+    btnNo.style.fontSize = newFontSize + 'rem';
+    btnNo.style.padding = newPaddingV + 'px ' + newPaddingH + 'px';
+    btnNo.style.transform = 'scale(' + scaleFactor + ')';
+    btnNo.style.opacity = newOpacity;
+
+    if (btnYes) {
+      const yesScale = 1 + noClickCount * 0.06;
+      btnYes.style.transform = 'scale(' + Math.min(yesScale, 1.5) + ')';
+    }
+
+    if (noClickCount >= 12) {
+      btnNo.style.transition = 'all 0.5s ease';
+      btnNo.style.transform = 'scale(0) rotate(180deg)';
+      btnNo.style.opacity = '0';
+      setTimeout(function() {
+        if (btnNo && btnNo.parentNode) {
+          btnNo.remove();
+        }
+      }, 550);
+    }
+  }
+
+  function jawabMau() {
+    answered = true;
+    popupEmoji.textContent = jawabanMau.emoji;
+    popupText.innerHTML = '<strong style="font-size:1.3em; display:block; margin-bottom:10px;">' + jawabanMau.title + '</strong>' + jawabanMau.text;
+    popupActions.innerHTML =
+      '<button class="btn-single" onclick="tutupPopup()">Aku sayang kamu 💕</button>';
+    const card = document.querySelector('.popup-card');
+    card.style.animation = 'none';
+    void card.offsetWidth;
+    card.style.animation = 'popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+    for (let i = 0; i < 50; i++) setTimeout(createFallingHeart, i * 60);
+    for (let i = 0; i < 60; i++) setTimeout(createConfetti, i * 50);
+  }
+
+  function tutupPopup() {
+    popup.classList.remove('show');
+  }
+
+  function closeIfOutside(e) {
+    if (e.target === popup) {
+      popup.classList.remove('show');
+    }
+  }
+
+  function createFallingHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('falling-heart');
+    const hearts = ['❤️', '💖', '💕', '💗', '💓', '🌸', '✨', '🩷'];
+    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (18 + Math.random() * 24) + 'px';
+    const duration = 3 + Math.random() * 3;
+    heart.style.animationDuration = duration + 's';
+    document.body.appendChild(heart);
+    setTimeout(function() { heart.remove(); }, duration * 1000);
+  }
+
+  function createConfetti() {
+    const colors = ['#ff2d75', '#ff6ec4', '#7873f5', '#ffd700', '#00e5ff', '#7CFC00'];
+    const c = document.createElement('div');
+    c.classList.add('confetti');
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.width = (8 + Math.random() * 8) + 'px';
+    c.style.height = (8 + Math.random() * 8) + 'px';
+    const duration = 2.5 + Math.random() * 2.5;
+    c.style.animationDuration = duration + 's';
+    document.body.appendChild(c);
+    setTimeout(function() { c.remove(); }, duration * 1000);
+  }
+</script>
+</body>
+</html>
